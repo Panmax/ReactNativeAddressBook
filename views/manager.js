@@ -7,6 +7,7 @@ var Util = require('./util');
 var ModifyPassword = require('./manager/modifyPassword');
 var AddUser  = require('./manager/addUser');
 var DeleteUser = require('./manager/deleteUser');
+var PostMessage = require('./manager/postMessage');
 
 var {
     StyleSheet,
@@ -60,7 +61,7 @@ var Manager = React.createClass({
         var colors = ['#F4000B', '#17B4FF', '#FFD900', '#F00000'];
         var tags = ['U', 'A', 'D', 'M'];
         var items = ['修改密码', '增加联系人', '删除联系人',  '发布公告'];
-        var components = [ModifyPassword, AddUser, DeleteUser, AddUser];
+        var components = [ModifyPassword, AddUser, DeleteUser, PostMessage];
         var JSXDOM = [];
         for(var i in items) {
             JSXDOM.push(

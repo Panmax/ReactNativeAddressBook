@@ -64,7 +64,14 @@ var DeleteUser = React.createClass({
                                         }
                                         AV.Cloud.run('deleteUser', {'email': that.state.email}).then(function (result) {
                                             console.log(result);
-                                            AlertIOS.alert('成功', '删除成功')
+                                            AlertIOS.alert('成功', '删除成功', [
+                                                {
+                                                    text: '确定',
+                                                    onPress: function () {
+                                                        that.props.navigator.pop()
+                                                    }
+                                                }
+                                            ])
                                         }, function (error) {
                                             console.log(error);
                                             AlertIOS.alert('失败', '删除失败')

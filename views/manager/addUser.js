@@ -192,6 +192,7 @@ var AddUser = React.createClass({
     },
 
     _addUser: function () {
+        var that = this;
         var username = this.state.username;
         var realname = this.state.realname;
         var password = this.state.password;
@@ -214,7 +215,14 @@ var AddUser = React.createClass({
         user.set('partment', partment)
 
         user.signUp().then(function (user) {
-            AlertIOS.alert('创建成功')
+            AlertIOS.alert('成功','创建成功', [
+                {
+                    text: '确定',
+                    onPress: function () {
+                        that.props.navigator.pop()
+                    }
+                }
+            ])
         }, function (error) {
             console.log(error.code + ' ' + error.message);
             AlertIOS.alert(error.message)

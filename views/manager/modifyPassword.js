@@ -33,7 +33,14 @@ var ModifyUser = React.createClass({
         var that = this;
         var user = AV.User.current();
         user.updatePassword(this.state.oldPassword, this.state.password).then(function () {
-            AlertIOS.alert('成功', '密码修改成功');
+            AlertIOS.alert('成功', '密码修改成功', [
+                {
+                    text: '确定',
+                    onPress: function () {
+                        that.props.navigator.pop()
+                    }
+                }
+            ]);
 
             // 修改密码后重新获取token
             AV.User.logIn(user.getUsername(), that.state.password).then(function () {

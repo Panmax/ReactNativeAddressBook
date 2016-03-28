@@ -6,6 +6,7 @@
 var React = require('react-native');
 var AdSupportIOS = require('AdSupportIOS');
 var Home = require('./views/home');
+var Message = require('./views/message');
 var Manager = require('./views/manager');
 var Util = require('./views/util');
 
@@ -61,18 +62,29 @@ var Address = React.createClass({
         AsyncStorage.getItem('token', function (err, token) {
             if(!err && token) {
                 AV.User.become(token).then(function (user) {
-                    that.setState({
-                        showLogin: {
-                            height: 0,
-                            width:0,
-                            flex: 0
-                        },
-                        showIndex: {
-                            flex: 1,
-                            opacity: 1
-                        },
-                        isLoadingShow: false
-                    })
+                    // 取出通知
+                    var query = new AV.Query('Message');
+                    query.include('user');
+                    query.descending('createdAt');
+                    query.find().then(function (results) {
+                        that.setState({
+                            messages: results
+                        });
+                        that.setState({
+                            showLogin: {
+                                height: 0,
+                                width:0,
+                                flex: 0
+                            },
+                            showIndex: {
+                                flex: 1,
+                                opacity: 1
+                            },
+                            isLoadingShow: false
+                        })
+                    }, function (error) {
+                        alert(error.message)
+                    });
                 }, function (error) {
                     that.setState({
                         showIndex: {
@@ -118,6 +130,7 @@ var Address = React.createClass({
     },
     
     _login: function () {
+        var that = this;
         var email = this.state.email;
         var password = this.state.password;
         if (email == null || email.length == 0) {
@@ -127,7 +140,7 @@ var Address = React.createClass({
             AlertIOS.alert('提示', '请输入密码');
             return
         }
-        var that = this;
+
         //隐藏登录页 & 加载loading
         that.setState({
             showLogin: {
@@ -141,6 +154,30 @@ var Address = React.createClass({
             var currentUser = AV.User.current();
             AsyncStorage.multiSet([['token', currentUser._sessionToken]], function (err) {
                 if (!err) {
+                    // 取出通知
+                    var query = new AV.Query('Message');
+                    query.include('user');
+                    query.descending('createdAt');
+                    query.find().then(function (results) {
+                        that.setState({
+                            messages: results
+                        });
+                        that.setState({
+                            showLogin: {
+                                height: 0,
+                                width:0,
+                                flex: 0
+                            },
+                            showIndex: {
+                                flex: 1,
+                                opacity: 1
+                            },
+                            isLoadingShow: false
+                        })
+                    }, function (error) {
+                        alert(error.message)
+                    });
+
                     that.setState({
                         showLogin: {
                             height: 0,
@@ -179,9 +216,9 @@ var Address = React.createClass({
     },
 
     _addNavigator: function (component, title) {
-        var data = null;
+        var messages = null;
         if (title === '公告') {
-            data = this.state.data;
+            messages = this.state.messages;
         }
 
         return (
@@ -195,7 +232,7 @@ var Address = React.createClass({
                     component: component,
                     title: title,
                     passProps: {
-                        data: data,
+                        messages: messages,
                         parent: this
                     }
                 }}
@@ -225,8 +262,9 @@ var Address = React.createClass({
                                 icon={require('image!gonggao')}
                                 title="公告"
                                 selected={this.state.selectedTab === 'message'}
+                                onPress={() => this._selectTab('message')}
                             >
-                                <Text>b</Text>
+                                {this._addNavigator(Message, '公告')}
                             </TabBarIOS.Item>
                             <TabBarIOS.Item
                                 icon={require('image!manager')}
