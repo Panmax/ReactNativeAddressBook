@@ -15,9 +15,20 @@ var {
     } = React;
 
 var Item = React.createClass({
+    loadPage: function (data) {
+        var message = data;
+        this.props.nav.push({
+            title: '详细详情',
+            component: this.props.component,
+            passProps: {
+                message: message
+            }
+        })
+    },
+
     render: function () {
         return (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => this.loadPage(this.props.data)}>
                 <View style={styles.item}>
                     <View style={styles.width50}>
                         <Text>{this.props.name.substr(0, 1)}</Text>

@@ -5,6 +5,7 @@ var React = require('react-native');
 var Util = require('./util');
 var AV = require('avoscloud-sdk');
 var Item = require('./message/item');
+var Detail = require('./message/detail');
 
 var {
     StyleSheet,
@@ -26,6 +27,7 @@ var Message = React.createClass({
                 <Item
                     key={messages[i].id}
                     nav={this.props.navigator}
+                    component={Detail}
                     data={messages[i]}
                     text={messages[i].get('content')}
                     name={messages[i].get('user').get('realname')}
