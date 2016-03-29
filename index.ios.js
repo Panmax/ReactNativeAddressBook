@@ -8,6 +8,7 @@ var AdSupportIOS = require('AdSupportIOS');
 var Home = require('./views/home');
 var Message = require('./views/message');
 var Manager = require('./views/manager');
+var About = require('./views/about');
 var Util = require('./views/util');
 
 var AV = require('avoscloud-sdk');
@@ -277,9 +278,10 @@ var Address = React.createClass({
                             <TabBarIOS.Item
                                 icon={require('image!about')}
                                 title="关于"
-                                selected={this.selectedTab === 'about'}
+                                selected={this.state.selectedTab === 'about'}
+                                onPress={() => this._selectTab('about')}
                             >
-                                <Text>d</Text>
+                                {this._addNavigator(About, '关于')}
                             </TabBarIOS.Item>
                         </TabBarIOS>
                     </View> : null

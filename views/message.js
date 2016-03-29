@@ -38,12 +38,6 @@ var Message = React.createClass({
 
         return (
             <ScrollView style={styles.container}>
-                <View style={{height: 50, padding: 7}}>
-                    <TextInput
-                        style={styles.search}
-                        placeholder="搜索"
-                    />
-                </View>
                 <View>
                     {items}
                 </View>

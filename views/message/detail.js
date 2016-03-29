@@ -24,12 +24,12 @@ var Detail = React.createClass({
 
                 <View style={[styles.luokuan, {marginTop:25}]}>
                     <View style={{flex:1}} />
-                    <Text style={[styles.text, {color:'#007AFF'}]}>{message.get('user').get('realname')}</Text>
+                    <Text style={styles.text}>{message.get('user').get('realname')}</Text>
                 </View>
 
                 <View style={[styles.luokuan]}>
                     <View style={{flex:1}} />
-                    <Text style={[styles.text, {color:'#007AFF'}]}>{moment(message.createdAt).format('YYYY-MM-DD')}</Text>
+                    <Text style={styles.text}>{moment(message.createdAt).format('YYYY-MM-DD')}</Text>
                 </View>
             </ScrollView>
         )
@@ -52,7 +52,8 @@ var styles = StyleSheet.create({
 
     text:{
         lineHeight:20,
-        width:90
+        width:90,
+        color:'#007AFF'
     }
 });
 
